@@ -6,7 +6,7 @@ import analysis from './assets/analysis.png';
 import python from './assets/python.png';
 import sqlExcel from './assets/sql_excel.png';
 
-export default function Services() {
+
   const services = [
     {
       img: python,
@@ -24,7 +24,8 @@ export default function Services() {
       desc: 'Applying problem-solving skills and attention to detail in development and data analysis.',
     },
   ];
-
+  
+export default function Services() {
   return (
     <section>
       <h2>Services</h2>

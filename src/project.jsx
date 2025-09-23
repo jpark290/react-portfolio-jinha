@@ -6,7 +6,6 @@ import proj1 from './assets/proj1.png';
 import proj2 from './assets/proj2.png';
 import proj3 from './assets/proj3.png';
 
-export default function Project() {
   const projects = [
     {
       img: proj1,
@@ -27,7 +26,8 @@ export default function Project() {
       link: 'https://github.com/jpark290/Retail_Inventory_System.git',
     },
   ];
-
+  
+export default function Project() {
   return (
     <section>
       <h2>Projects</h2>

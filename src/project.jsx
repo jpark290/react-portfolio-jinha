@@ -26,13 +26,13 @@ import proj3 from './assets/proj3.png';
       link: 'https://github.com/jpark290/Retail_Inventory_System.git',
     },
   ];
-  
+
 export default function Project() {
   return (
     <section>
       <h2>Projects</h2>
       <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-        {items.map((p, i) => (
+        {projects.map((p, i) => (
           <article key={i} style={{ border: '1px solid #ddd', borderRadius: 12, padding: 16 }}>
             <img src={p.img} alt={p.title}   style={{
               width: '100%',

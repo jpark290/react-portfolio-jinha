@@ -1,4 +1,4 @@
-# Jinha Park – React Portfolio (COMP229 Assignment 1)
+# Jinha Park – React Portfolio
 
 ## Pages
 - Home: Welcome & mission
@@ -29,5 +29,5 @@ src/
 
 ## Deployment
 - Build: `npm run build` → `dist/`
-- Vercel or Netlify (publish dir: `dist`) – details below
+- Vercel or Netlify (publish dir: `dist`) – https://incredible-paprenjak-b03bb5.netlify.app/
 

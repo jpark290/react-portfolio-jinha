@@ -1,44 +1,40 @@
 import Qualification from '../models/qualification.js';
 
-export const getAll = async (req, res) => {
-  try { res.json(await Qualification.find()); }
-  catch (e) { res.status(500).json({ message: e.message }); }
+export const getQualifications = async (_req, res) => res.json(await Qualification.find().lean());
+
+export const getQualificationById = async (req, res) => {
+  const doc = await Qualification.findById(req.params.id).lean();
+  if (!doc) return res.status(404).json({ message: 'Qualification not found' });
+  res.json(doc);
 };
 
-export const getById = async (req, res) => {
-  try {
-    const doc = await Qualification.findById(req.params.id);
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json(doc);
-  } catch (e) { res.status(500).json({ message: e.message }); }
+export const createQualification = async (req, res) => {
+  const { title, firstname, lastname, email, completion, description } = req.body;
+  if (!title || !firstname || !lastname || !email || !completion || !description)
+    return res.status(400).json({ message: 'All fields are required' });
+  const created = await Qualification.create({
+    title, firstname, lastname, email,
+    completion: new Date(completion),
+    description
+  });
+  res.status(201).json(created);
 };
 
-export const createOne = async (req, res) => {
-  try {
-    const doc = await Qualification.create(req.body);
-    res.status(201).json(doc);
-  } catch (e) { res.status(400).json({ message: e.message }); }
+export const updateQualification = async (req, res) => {
+  const payload = { ...req.body };
+  if (payload.completion) payload.completion = new Date(payload.completion);
+  const updated = await Qualification.findByIdAndUpdate(req.params.id, payload, { new: true }).lean();
+  if (!updated) return res.status(404).json({ message: 'Qualification not found' });
+  res.json(updated);
 };
 
-export const updateById = async (req, res) => {
-  try {
-    const doc = await Qualification.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json(doc);
-  } catch (e) { res.status(400).json({ message: e.message }); }
+export const deleteQualification = async (req, res) => {
+  const deleted = await Qualification.findByIdAndDelete(req.params.id).lean();
+  if (!deleted) return res.status(404).json({ message: 'Qualification not found' });
+  res.json({ message: 'Qualification removed', id: deleted._id });
 };
 
-export const removeById = async (req, res) => {
-  try {
-    const doc = await Qualification.findByIdAndDelete(req.params.id);
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json({ message: 'Deleted' });
-  } catch (e) { res.status(500).json({ message: e.message }); }
-};
-
-export const removeAll = async (req, res) => {
-  try {
-    await Qualification.deleteMany({});
-    res.json({ message: 'All qualifications removed' });
-  } catch (e) { res.status(500).json({ message: e.message }); }
+export const deleteAllQualifications = async (_req, res) => {
+  const r = await Qualification.deleteMany({});
+  res.json({ message: 'All qualifications removed', deletedCount: r.deletedCount });
 };

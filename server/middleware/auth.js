@@ -1,15 +1,18 @@
+// server/middleware/auth.js
 import jwt from 'jsonwebtoken';
 
-export const protect = (req, res, next) => {
+export const requireAuth = (req, res, next) => {
+  // Expect header: Authorization: Bearer <token>
   const auth = req.headers.authorization || '';
-  const token = auth.startsWith('Bearer ') ? auth.substring(7) : null;
-  if (!token) return res.status(401).json({ message: 'No token' });
+  const [, token] = auth.split(' '); // ["Bearer", "<token>"]
+
+  if (!token) return res.status(401).json({ message: 'Unauthorized: token missing' });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // { id, email }
+    req.user = decoded; // { _id, email, name, iat, exp }
     next();
-  } catch (e) {
-    return res.status(401).json({ message: 'Invalid token' });
+  } catch (err) {
+    return res.status(401).json({ message: 'Unauthorized: invalid or expired token' });
   }
 };

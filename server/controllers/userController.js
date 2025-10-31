@@ -1,44 +1,79 @@
+// server/controllers/userController.js
 import User from '../models/user.js';
 
-export const getAll = async (req, res) => {
-  try { res.json(await User.find({}, '-password')); }
-  catch (e) { res.status(500).json({ message: e.message }); }
+// === GET /api/users ===
+// Return a list of all users (excluding sensitive fields)
+export const getUsers = async (_req, res) => {
+  const users = await User.find()
+    .select('_id name email created updated') // Exclude hashed_password, salt
+    .lean();
+  res.json(users);
 };
 
-export const getById = async (req, res) => {
-  try {
-    const doc = await User.findById(req.params.id, '-password');
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json(doc);
-  } catch (e) { res.status(500).json({ message: e.message }); }
+// === GET /api/users/:id ===
+// Return a single user by ID (excluding sensitive fields)
+export const getUserById = async (req, res) => {
+  const user = await User.findById(req.params.id)
+    .select('_id name email created updated')
+    .lean();
+  if (!user) return res.status(404).json({ message: 'User not found' });
+  res.json(user);
 };
 
-export const createOne = async (req, res) => {
+// === POST /api/users ===
+// Create a new user (signup) using virtual password field
+export const createUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password)
+    return res.status(400).json({ message: 'name, email, and password are required' });
+
   try {
-    const doc = await User.create(req.body);
-    res.status(201).json({ _id: doc._id, name: doc.name, email: doc.email });
-  } catch (e) { res.status(400).json({ message: e.message }); }
+    const user = new User({ name, email, password }); // Virtual field hashes automatically
+    await user.save();
+    return res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      created: user.created,
+    });
+  } catch (e) {
+    return res.status(400).json({ message: 'User creation failed' });
+  }
 };
 
-export const updateById = async (req, res) => {
-  try {
-    const doc = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, select: '-password' });
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json(doc);
-  } catch (e) { res.status(400).json({ message: e.message }); }
+// === PUT /api/users/:id ===
+// Update user info (name/email/password). Password rehashed if changed.
+export const updateUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  const user = await User.findById(req.params.id);
+  if (!user) return res.status(404).json({ message: 'User not found' });
+
+  if (name !== undefined) user.name = name;
+  if (email !== undefined) user.email = email;
+  if (password) user.password = password; // Virtual field triggers rehash
+  user.updated = new Date();
+
+  await user.save();
+  return res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    created: user.created,
+    updated: user.updated,
+  });
 };
 
-export const removeById = async (req, res) => {
-  try {
-    const doc = await User.findByIdAndDelete(req.params.id);
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json({ message: 'Deleted' });
-  } catch (e) { res.status(500).json({ message: e.message }); }
+// === DELETE /api/users/:id ===
+// Delete a single user by ID
+export const deleteUser = async (req, res) => {
+  const deleted = await User.findByIdAndDelete(req.params.id).lean();
+  if (!deleted) return res.status(404).json({ message: 'User not found' });
+  res.json({ message: 'User removed', id: deleted._id });
 };
 
-export const removeAll = async (req, res) => {
-  try {
-    await User.deleteMany({});
-    res.json({ message: 'All users removed' });
-  } catch (e) { res.status(500).json({ message: e.message }); }
+// === DELETE /api/users ===
+// Remove all users (for testing/demo purposes)
+export const deleteAllUsers = async (_req, res) => {
+  const r = await User.deleteMany({});
+  res.json({ message: 'All users removed', deletedCount: r.deletedCount });
 };

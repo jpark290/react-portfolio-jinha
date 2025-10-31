@@ -23,6 +23,10 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
+  res.send('Portfolio Backend OK @ ' + new Date().toISOString());
+});
+
+app.get('/', (_req, res) => {
   res.send('Portfolio Application Backend is running...');
 });
 

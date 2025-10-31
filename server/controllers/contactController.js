@@ -1,47 +1,43 @@
 import Contact from '../models/contact.js';
 
-export const getAll = async (req, res) => {
-  try {
-    const docs = await Contact.find();
-    res.json(docs);
-  } catch (err) { res.status(500).json({ message: err.message }); }
+// GET /api/contacts
+export const getContacts = async (req, res) => {
+  const list = await Contact.find().lean();
+  res.json(list);
 };
 
-export const getById = async (req, res) => {
-  try {
-    const doc = await Contact.findById(req.params.id);
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json(doc);
-  } catch (err) { res.status(500).json({ message: err.message }); }
+// GET /api/contacts/:id
+export const getContactById = async (req, res) => {
+  const doc = await Contact.findById(req.params.id).lean();
+  if (!doc) return res.status(404).json({ message: 'Contact not found' });
+  res.json(doc);
 };
 
-export const createOne = async (req, res) => {
-  try {
-    const { firstname, lastname, email } = req.body;
-    const doc = await Contact.create({ firstname, lastname, email });
-    res.status(201).json(doc);
-  } catch (err) { res.status(400).json({ message: err.message }); }
+// POST /api/contacts
+export const createContact = async (req, res) => {
+  const { firstname, lastname, email } = req.body;
+  if (!firstname || !lastname || !email)
+    return res.status(400).json({ message: 'firstname, lastname, email are required' });
+  const created = await Contact.create({ firstname, lastname, email });
+  res.status(201).json(created);
 };
 
-export const updateById = async (req, res) => {
-  try {
-    const doc = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json(doc);
-  } catch (err) { res.status(400).json({ message: err.message }); }
+// PUT /api/contacts/:id
+export const updateContact = async (req, res) => {
+  const updated = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true }).lean();
+  if (!updated) return res.status(404).json({ message: 'Contact not found' });
+  res.json(updated);
 };
 
-export const removeById = async (req, res) => {
-  try {
-    const doc = await Contact.findByIdAndDelete(req.params.id);
-    if (!doc) return res.status(404).json({ message: 'Not found' });
-    res.json({ message: 'Deleted' });
-  } catch (err) { res.status(500).json({ message: err.message }); }
+// DELETE /api/contacts/:id
+export const deleteContact = async (req, res) => {
+  const deleted = await Contact.findByIdAndDelete(req.params.id).lean();
+  if (!deleted) return res.status(404).json({ message: 'Contact not found' });
+  res.json({ message: 'Contact removed', id: deleted._id });
 };
 
-export const removeAll = async (req, res) => {
-  try {
-    await Contact.deleteMany({});
-    res.json({ message: 'All contacts removed' });
-  } catch (err) { res.status(500).json({ message: err.message }); }
+// DELETE /api/contacts
+export const deleteAllContacts = async (_req, res) => {
+  const r = await Contact.deleteMany({});
+  res.json({ message: 'All contacts removed', deletedCount: r.deletedCount });
 };

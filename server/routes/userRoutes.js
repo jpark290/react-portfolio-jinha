@@ -1,14 +1,22 @@
-import { Router } from 'express';
-import { getAll, getById, createOne, updateById, removeById, removeAll } from '../controllers/userController.js';
-import { protect } from '../middleware/auth.js';
+import express from 'express';
+import {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  deleteAllUsers,
+} from '../controllers/userController.js';
+import { requireSignin } from '../controllers/authController.js';
 
-const router = Router();
+const router = express.Router();
 
-router.get('/', protect, getAll);
-router.get('/:id', protect, getById);
-router.post('/', createOne);
-router.put('/:id', protect, updateById);
-router.delete('/:id', protect, removeById);
-router.delete('/', protect, removeAll);
+router.post('/', createUser);
+
+router.get('/', requireSignin, getUsers);
+router.get('/:id', requireSignin, getUserById);
+router.put('/:id', requireSignin, updateUser);
+router.delete('/:id', requireSignin, deleteUser);
+router.delete('/', requireSignin, deleteAllUsers);
 
 export default router;

@@ -1,4 +1,8 @@
-// client/src/api/qualificationAPI.js
+/*
+Author: Jinha Park
+Student ID: 301475372
+Course: COMP229 – Web Application Development
+*/
 const API = import.meta.env.VITE_API_URL;
 
 // Helper to add Authorization header if token exists

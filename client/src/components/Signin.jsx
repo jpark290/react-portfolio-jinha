@@ -1,3 +1,8 @@
+/*
+Author: Jinha Park
+Student ID: 301475372
+Course: COMP229 – Web Application Development
+*/
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signin } from '../api/authAPI';

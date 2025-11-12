@@ -1,7 +1,8 @@
-/* 
- * File: App.css
- * Purpose: Global layout, theme variables, shared grid/card styles, per-page tweaks.
- */
+/*
+Author: Jinha Park
+Student ID: 301475372
+Course: COMP229 – Web Application Development
+*/
 import { BrowserRouter as Router } from 'react-router-dom';
 import MainRouter from './MainRouter';
 import './App.css';

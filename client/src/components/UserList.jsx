@@ -1,3 +1,8 @@
+/*
+Author: Jinha Park
+Student ID: 301475372
+Course: COMP229 – Web Application Development
+*/
 import { useEffect, useState } from 'react';
 import { fetchUsers } from "../api/userAPI.js";
 

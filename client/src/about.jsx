@@ -1,7 +1,8 @@
 /*
- * File: about.jsx
- * Purpose: About Me page (legal name, profile picture, short bio, PDF resume link).
- */
+Author: Jinha Park
+Student ID: 301475372
+Course: COMP229 – Web Application Development
+*/
 
 import profileImg from './assets/profile.png';
 import resumePdf from './assets/resume.pdf';

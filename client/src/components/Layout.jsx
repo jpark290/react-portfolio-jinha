@@ -41,7 +41,6 @@ export default function Layout() {
               <button onClick={handleLogout}>Logout</button>
             </>
           )}
-          <span style={{ marginLeft: 12, fontSize: 12 }}>NETLIFY_LAYOUT_V2</span>
         </nav>
       </header>
 

@@ -31,12 +31,13 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 const app = express();
 connectDB();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://react-portfolio-jinha.netlify.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+}));
+app.options("*", cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Portfolio Backend OK @ ' + new Date().toISOString());
-});
 
 app.get('/', (_req, res) => {
   res.send('Portfolio Application Backend is running...');

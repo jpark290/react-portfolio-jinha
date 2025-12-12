@@ -35,7 +35,7 @@ portfolio_jinha/
 ---
 
 ### 🔗 Important Links
-- **Frontend (Netlify)**: [[https://incredible-paprenjak-b03bb5.netlify.app/](https://incredible-paprenjak-b03bb5.netlify.app/)  ](https://react-portfolio-jinha.netlify.app/)
+- **Frontend (Netlify)**: [(https://react-portfolio-jinha.netlify.app/)]
 - **Backend (Localhost)**: `http://localhost:5000`
 - **GitHub Repository**: [https://github.com/jpark290/react-portfolio-jinha](https://github.com/jpark290/react-portfolio-jinha)
 - **Database**: MongoDB Atlas (Portfolio DB connected successfully)

@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 /*
 Author: Jinha Park
 Student ID: 301475372
 Course: COMP229 – Web Application Development
 */
+=======
+// client/src/api/qualificationAPI.js
+>>>>>>> 2ab3cf8 (Use node for start script in production)
 const API = import.meta.env.VITE_API_URL;
 
 // Helper to add Authorization header if token exists

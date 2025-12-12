@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 /*
 Author: Jinha Park
 Student ID: 301475372
 Course: COMP229 – Web Application Development
 */
+=======
+>>>>>>> 2ab3cf8 (Use node for start script in production)
 import { useEffect, useState } from 'react';
 import { fetchUsers } from "../api/userAPI.js";
 

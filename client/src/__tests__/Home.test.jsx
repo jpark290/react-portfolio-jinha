@@ -11,7 +11,6 @@ describe('Home component', () => {
   it('renders the main welcome heading', () => {
     render(<Home />);
 
-    // Home.jsx에 있는 실제 텍스트 기준
     const heading = screen.getByText(/Welcome to My Portfolio/i);
 
     expect(heading).toBeInTheDocument();

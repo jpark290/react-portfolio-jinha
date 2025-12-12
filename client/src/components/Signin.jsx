@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 /*
 Author: Jinha Park
 Student ID: 301475372
 Course: COMP229 – Web Application Development
 */
-=======
->>>>>>> 2ab3cf8 (Use node for start script in production)
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signin } from '../api/authAPI';

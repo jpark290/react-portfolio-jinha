@@ -1,4 +1,4 @@
-// client/cypress/e2e/portfolio.cy.js
+// Jinha Park - client/cypress/e2e/portfolio.cy.js
 
 describe('Portfolio E2E', () => {
   it('navigates from Home to Projects page', () => {

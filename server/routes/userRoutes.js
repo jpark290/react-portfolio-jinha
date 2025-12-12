@@ -18,8 +18,9 @@ import {
   updateUser,
   deleteUser,
   deleteAllUsers,
+  userById,
 } from '../controllers/userController.js';
-import { requireSignin } from '../controllers/authController.js';
+import { requireSignin, hasAuthorization } from '../controllers/authController.js';
 
 const router = express.Router();
 
@@ -27,8 +28,10 @@ router.post('/', createUser);
 
 router.get('/', requireSignin, getUsers);
 router.get('/:id', requireSignin, getUserById);
-router.put('/:id', requireSignin, updateUser);
-router.delete('/:id', requireSignin, deleteUser);
+router.put('/:id', requireSignin, hasAuthorization, updateUser);
+router.delete('/:id', requireSignin, hasAuthorization, deleteUser);
 router.delete('/', requireSignin, deleteAllUsers);
+router.param('id', userById);
 
 export default router;
+

@@ -40,10 +40,10 @@ export const signin = async (req, res) => {
 
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' });
 
-    return res.json({
-      token,
-      user: { _id: user._id, name: user.name, email: user.email },
-    });
+  return res.json({
+    token,
+    user: { _id: user._id, name: user.name, email: user.email, role: user.role }
+  });
   } catch (err) {
     return res.status(401).json({ error: 'Could not sign in' });
   }
@@ -72,4 +72,19 @@ export const hasAuthorization = (req, _res, next) => {
   const authorized = req.profile && req.auth && String(req.profile._id) === String(req.auth._id);
   if (!authorized) return next({ status: 403, message: 'User is not authorized' });
   next();
+};
+
+/** Middleware: isAdmin
+ *  Allows only users with role 'admin' (use after requireSignin).
+ */
+export const isAdmin = async (req, _res, next) => { // ADDED
+  try {
+    const user = await User.findById(req.auth?._id).lean();
+    if (!user || user.role !== 'admin') {
+      return next({ status: 403, message: 'Admin only' });
+    }
+    next();
+  } catch {
+    return next({ status: 403, message: 'Admin only' });
+  }
 };

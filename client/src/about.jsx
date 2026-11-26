@@ -19,6 +19,7 @@ export default function About() {
 
       <div className="about-text">
         <p>
+          Updated via CI/CD
           I am currently studying Software Engineering Technology – Artificial Intelligence at Centennial College,
           where I am building a strong foundation in Python, SQL, Java, and C#.
         </p>

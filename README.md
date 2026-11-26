@@ -58,3 +58,6 @@ This submission includes:
 - **MongoDB connection** and **Express server** running on port 5000
 - **JWT Authentication** for sign-in and protected routes
 - Screenshots included in the Word report (for all CRUD + Auth tests)
+
+
+CI/CD Test: Updated via branch merge and Netlify auto-deploy.
